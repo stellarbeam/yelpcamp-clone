@@ -10,6 +10,7 @@ const   express     = require("express"),
 // Express setup
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static(__dirname + "/public"));
 
 //Mongoose setup
 mongoose.connect("mongodb://mongo:27018/yelp_camp", {
