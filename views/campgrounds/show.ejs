@@ -1,0 +1,18 @@
+<%- include("../layouts/header") %>
+<h1 class="text-center">
+	<%= campground.name %>
+</h1>
+<div class="thumbnail">
+	<img src="<%= campground.url %>">
+</div>
+<p>
+	<%= campground.description %>
+</p>
+<p>
+	<a class="btn btn-success" href="/campgrounds/<%= campground.id %>/comments/new">Add Comment</a>
+</p>
+<% campground.comments.forEach(comment => { %>
+	<p><strong><%= comment.author %></strong> - <%= comment.text %></p>
+<% }); %>
+
+<%- include("../layouts/footer") %>

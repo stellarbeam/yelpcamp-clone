@@ -1,0 +1,16 @@
+{
+  "name": "yelpcamp-v1",
+  "version": "3.0.0",
+  "description": "YelpCamp version 3",
+  "main": "app.js",
+  "scripts": {
+      "start": "nodemon -L app.js"
+  },
+  "author": "stellarbeam",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.7"
+  }
+}
