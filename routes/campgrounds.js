@@ -3,7 +3,7 @@ const Campground = require("../models/campground");
 const Comment = require("../models/comment");
 
 // INDEX - Show all campgrounds
-router.get("/campgrounds", (req, res) => {
+router.get("/", (req, res) => {
 	Campground.find({}, (err, matchedCampgrounds) => {
 		if (err) {
 			console.log(error);
@@ -15,7 +15,7 @@ router.get("/campgrounds", (req, res) => {
 })
 
 // CREATE - Add new campground 
-router.post("/campgrounds", (req, res) => {
+router.post("/", (req, res) => {
 	let newCampground = {
 		name: req.body.name,
 		url: req.body.url,
@@ -33,12 +33,12 @@ router.post("/campgrounds", (req, res) => {
 })
 
 // NEW - Show form to create new campground
-router.get("/campgrounds/new", (req, res) => {
+router.get("/new", (req, res) => {
 	res.render("campgrounds/new");
 })
 
 // SHOW - Shows more info about one campground
-router.get("/campgrounds/:id", (req, res) => {
+router.get("/:id", (req, res) => {
 	var id = req.params.id;
 	Campground.findById(id).populate("comments").exec((err, campground) => {
 		res.render("campgrounds/show", { campground: campground });

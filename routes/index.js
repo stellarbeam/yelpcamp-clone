@@ -9,14 +9,17 @@ function isLoggedIn(req, res, next) {
     res.redirect('/login');
 }
 
+// Root route
 router.get("/", (req, res) => {
 	res.render("landing");
 })
 
+// Register form
 router.get('/register', (req, res) => {
 	res.render("register")
 });
 
+// Register logic
 router.post('/register', (req, res) => {
 	User.register(
 		new User({ username: req.body.username }),
@@ -31,10 +34,12 @@ router.post('/register', (req, res) => {
 	})
 });
 
+// Login form
 router.get('/login', (req, res) => {
 	res.render("login");
 });
 
+// Login logic
 router.post('/login', passport.authenticate("local", {
 		successRedirect: "/campgrounds",
 		failureRedirect: "/login"
@@ -42,6 +47,7 @@ router.post('/login', passport.authenticate("local", {
 	(req, res) => { }
 );
 
+// Logout logic
 router.get('/logout', (req, res) => {
     req.logout();
     res.redirect("/campgrounds");

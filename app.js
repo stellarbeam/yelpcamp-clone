@@ -48,9 +48,9 @@ app.use(function (req, res, next) {
 	next();
 })
 
-app.use(campgroundRoutes);
-app.use(commentRoutes);
-app.use(indexRoutes);
+app.use("/campgrounds",campgroundRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/", indexRoutes);
 
 app.listen(3000, () => {
 	console.log("Listening on port 3000");
