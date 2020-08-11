@@ -5,6 +5,7 @@ const express = require("express"),
 	mongoose = require("mongoose"),
 	passport = require("passport"),
 	LocalStrategy = require("passport-local"),
+	methodOverride = require("method-override"),
 	User = require("./models/user"),
 	seedDB = require("./seeds");
 
@@ -16,14 +17,16 @@ const campgroundRoutes = require("./routes/campgrounds"),
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 // Mongoose setup
 mongoose.connect("mongodb://mongo:27018/yelp_camp", {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+	useFindAndModify: false
 }).then(() => {
 	console.log("MongoDB is connected!");
-	seedDB();
+	// seedDB();
 }).catch(err => {
 	console.log("Error occured");
 	console.log(err);
