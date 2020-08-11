@@ -9,6 +9,25 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/login');
 }
 
+function checkCommentOwnership(req, res, next) {
+	var id = req.params.comment_id;
+	if (req.isAuthenticated()) {
+		Comment.findById(id, (err, foundComment) => {
+			if (err) {
+				res.redirect("back")
+			} else {
+				if (foundComment.author.id.equals(req.user.id)) {
+					next();
+				} else {
+					res.redirect("back");
+				}
+			}
+		});
+	} else {
+		res.redirect("back")
+	}
+}
+
 // NEW - Show form to create new comment
 router.get("/new", isLoggedIn, (req, res) => {
 	var id = req.params.id;
@@ -45,7 +64,7 @@ router.post("/", isLoggedIn, (req, res) => {
 })
 
 // EDIT - Edit a comment
-router.get("/:comment_id/edit", (req, res) => {
+router.get("/:comment_id/edit", checkCommentOwnership, (req, res) => {
 	var campgroundId = req.params.id;
 	var commentId = req.params.comment_id;
 
@@ -58,7 +77,7 @@ router.get("/:comment_id/edit", (req, res) => {
 	});
 })
 
-router.put('/:comment_id', (req, res) => {
+router.put('/:comment_id', checkCommentOwnership, (req, res) => {
 	var campgroundId = req.params.id;
 	var commentId = req.params.comment_id;
 	var comment = req.body.comment;
@@ -70,6 +89,22 @@ router.put('/:comment_id', (req, res) => {
 			res.redirect(`/campgrounds/${campgroundId}`);
 		}
 	});
+});
+
+// DESTROY - Delete a comment
+router.delete('/:comment_id', checkCommentOwnership, (req, res) => {
+	var id = req.params.id;
+	var commentId = req.params.comment_id;
+
+	Comment.findByIdAndRemove(commentId, (err, commentRemoved) => {
+        if (err) {
+			console.log(err);
+			res.redirect("back");
+        } else {
+			res.redirect(`/campgrounds/${id}`);
+		}
+        
+    })
 });
 
 module.exports = router;
